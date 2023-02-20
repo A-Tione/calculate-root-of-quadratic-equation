@@ -2,6 +2,8 @@ package com.github.hcsp.calculation;
 
 import java.util.Arrays;
 
+import static java.lang.Float.NaN;
+
 public class Solution {
     public static void main(String[] args) {
         System.out.println("x^2-2x+1=0的解是：" + Arrays.toString(calculate(1, -2, 1)));
@@ -15,5 +17,19 @@ public class Solution {
     // 若没有根，返回一个空数组，即：new double[] {}
     // 提示，你可利用求根公式x=[-b±√(b²-4ac)]/2a
     // 需要执行开方运算时可使用Math.sqrt()方法
-    public static double[] calculate(int a, int b, int c) {}
+    public static double[] calculate(int a, int b, int c) {
+        double down = (-b + Math.sqrt((b * b) - (4 * a * c))) / (2 * a);
+        double up = (-b - Math.sqrt((b * b) - (4 * a * c))) / (2 * a);
+        if (Double.isFinite(down) || Double.isFinite(up)) {
+            if (Double.isFinite(down) && Double.isFinite(up)) {
+                if (down == up) {
+                    return new double[] {down};
+                }
+                return new double[]{((int)down), (int)up};
+            }
+            return new double[]{Double.isNaN(down) ? (int)up : (int)down};
+        } else {
+            return new double[]{};
+        }
+    }
 }
